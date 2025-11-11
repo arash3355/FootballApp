@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:football_league_app/riverpod/league_riverpod.dart';
 import 'package:football_league_app/utils/helper.dart';
 import '../../models/match_item.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MatchCard extends StatelessWidget {
+class MatchCard extends ConsumerWidget {
   final MatchItem match;
   final bool dense;
   const MatchCard({super.key, required this.match, this.dense = false});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Ambil semua liga
+    final leagues = ref.watch(leaguesProvider);
+
+    // Cari liga yang sesuai match
+    final league = leagues.firstWhere(
+      (l) => l.id == match.leagueId,
+      orElse: () => leagues[0],
+    );
+
+    final imageUrl = league.imageUrl ??
+        'https://images.unsplash.com/photo-1730816401327-1b6ce7b2a926?ixlib=rb-4.1.0&auto=format&fit=crop&q=80&w=1112'; // Gambar default jika tidak ada
+
     final dateStr = DateFormat('EEE, d MMM').format(match.date);
-    final imageUrl = match.imageUrl ??
-        'https://www.shutterstock.com/shutterstock/photos/2578181787/display_1500/stock-photo-soccer-athletes-dressed-sport-uniforms-challenging-for-soccer-ball-on-wet-grass-cleats-kicking-up-2578181787.jpg';
 
     return Container(
       constraints: const BoxConstraints(minHeight: 160, maxHeight: 200),

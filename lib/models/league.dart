@@ -6,10 +6,12 @@ class League {
   final String country;
   final List<Team> teams;
   final String? imageUrl;
-  League(
-      {required this.id,
-      required this.name,
-      required this.country,
-      required this.imageUrl,
-      required this.teams});
+
+  League({
+    required this.id,
+    required this.name,
+    required this.country,
+    required this.imageUrl,
+    required this.teams,
+  });
 }

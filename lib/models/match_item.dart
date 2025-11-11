@@ -7,12 +7,15 @@ class MatchItem {
   final DateTime date;
   final String status; // 'watch' or time like '20:00'
   final String? imageUrl;
+  final String leagueId;
 
-  MatchItem(
-      {required this.id,
-      required this.home,
-      required this.away,
-      required this.date,
-      this.status = '-',
-      this.imageUrl});
+  MatchItem({
+    required this.id,
+    required this.home,
+    required this.away,
+    required this.date,
+    this.status = '-',
+    this.imageUrl,
+    required this.leagueId,
+  });
 }

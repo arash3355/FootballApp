@@ -23,7 +23,7 @@ const textTitle = TextStyle(
 
 const textSubtitle = TextStyle(
   fontSize: 16,
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.bold,
   color: Color.fromARGB(221, 29, 13, 79),
 );
 
