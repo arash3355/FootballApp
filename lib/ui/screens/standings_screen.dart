@@ -6,7 +6,6 @@ import '../../riverpod/league_riverpod.dart';
 import '../../riverpod/standings_riverpod.dart';
 import '../../riverpod/match_riverpod.dart';
 import '../widgets/league_tabs.dart';
-import '../../models/match_item.dart';
 
 class StandingsScreen extends ConsumerWidget {
   const StandingsScreen({super.key});

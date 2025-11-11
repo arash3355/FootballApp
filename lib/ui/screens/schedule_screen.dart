@@ -1,7 +1,7 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:football_league_app/utils/helper.dart';
 import 'package:intl/intl.dart';
 import '../../riverpod/league_riverpod.dart';
 import '../../riverpod/match_riverpod.dart';
@@ -18,44 +18,25 @@ class ScheduleScreen extends ConsumerWidget {
     final matches = ref.watch(matchesProvider(selectedId));
 
     final today = DateTime.now();
-    final yesterday = today.subtract(const Duration(days: 1));
-    final tomorrow = today.add(const Duration(days: 1));
 
-    // --- Pisahkan list ---
-    final yesterdayMatches =
-        matches.where((m) => _isSameDay(m.date, yesterday)).toList();
-    final todayMatches =
-        matches.where((m) => _isSameDay(m.date, today)).toList();
-    final tomorrowMatches =
-        matches.where((m) => _isSameDay(m.date, tomorrow)).toList();
-    final otherMatches = matches
-        .where((m) =>
-            !_isSameDay(m.date, yesterday) &&
-            !_isSameDay(m.date, today) &&
-            !_isSameDay(m.date, tomorrow))
-        .toList();
+    // --- Kelompokkan semua match berdasarkan tanggal ---
+    final Map<String, List> grouped = {};
 
-    // --- Buat Map dateLabel -> matches ---
-    Map<String, List> grouped = {};
-    if (yesterdayMatches.isNotEmpty) grouped['Yesterday'] = yesterdayMatches;
-    if (todayMatches.isNotEmpty) grouped['Today'] = todayMatches;
-    if (tomorrowMatches.isNotEmpty) grouped['Tomorrow'] = tomorrowMatches;
-
-    // Tambahkan tanggal lain sesuai urutan
-    final otherSorted = otherMatches.toList()
+    // Urutkan semua match berdasarkan tanggal (lama → baru)
+    final sortedMatches = [...matches]
       ..sort((a, b) => a.date.compareTo(b.date));
-    for (var m in otherSorted) {
-      final key = DateFormat('EEE, d MMM').format(m.date);
-      grouped.putIfAbsent(key, () => []).add(m);
-    }
 
     final random = Random();
+
+    for (var m in sortedMatches) {
+      final dateKey = _dateLabel(m.date, today);
+      grouped.putIfAbsent(dateKey, () => []).add(m);
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Football League',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        title: const Text('Football League', style: textTitle),
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
@@ -82,10 +63,11 @@ class ScheduleScreen extends ConsumerWidget {
                 final dateLabel = entry.key;
                 final dateMatches = entry.value;
 
+                final isPast = _isBeforeToday(dateMatches.first.date, today);
+
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Header tanggal
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text(dateLabel,
@@ -95,9 +77,9 @@ class ScheduleScreen extends ConsumerWidget {
                     ...dateMatches.map((m) {
                       final dateStr = DateFormat('HH:mm').format(m.date);
 
-                      bool isYesterday = dateLabel == 'Yesterday';
-                      final homeScore = isYesterday ? random.nextInt(5) : null;
-                      final awayScore = isYesterday ? random.nextInt(5) : null;
+                      final homeScore =
+                          isPast ? random.nextInt(5) : null; // tampilkan skor
+                      final awayScore = isPast ? random.nextInt(5) : null;
 
                       return Container(
                         margin: const EdgeInsets.only(bottom: 8),
@@ -109,13 +91,12 @@ class ScheduleScreen extends ConsumerWidget {
                         ),
                         child: Row(
                           children: [
-                            // Tim + score / time
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    isYesterday
+                                    isPast
                                         ? '${m.home.name} $homeScore-$awayScore ${m.away.name}'
                                         : '${m.home.name} vs ${m.away.name}',
                                     style: const TextStyle(
@@ -132,58 +113,53 @@ class ScheduleScreen extends ConsumerWidget {
                               ),
                             ),
 
-                            // Tombol hanya jika bukan yesterday
-                            SizedBox(
-                              width: 80,
-                              child: !isYesterday
-                                  ? Container(
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          left: BorderSide(
-                                              color: Colors.grey.shade400,
-                                              width: 1),
-                                        ),
-                                      ),
-                                      padding: const EdgeInsets.only(left: 12),
-                                      child: m.status.toLowerCase() == 'watch'
-                                          ? ElevatedButton.icon(
-                                              onPressed: () {},
-                                              icon: const Icon(Icons.play_arrow,
-                                                  size: 14),
-                                              label: const Text('Watch'),
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.green,
-                                                foregroundColor: Colors.white,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 4,
-                                                        vertical: 4),
-                                                textStyle: const TextStyle(
-                                                    fontSize: 12),
-                                              ),
-                                            )
-                                          : Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 4,
-                                                      vertical: 4),
-                                              decoration: BoxDecoration(
-                                                color: Colors.redAccent,
-                                                borderRadius:
-                                                    BorderRadius.circular(6),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  m.status,
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12),
-                                                ),
-                                              ),
+                            // Tombol hanya untuk hari ini & masa depan
+                            if (!isPast)
+                              SizedBox(
+                                width: 80,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      left: BorderSide(
+                                          color: Colors.grey.shade400,
+                                          width: 1),
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.only(left: 12),
+                                  child: m.status.toLowerCase() == 'watch'
+                                      ? ElevatedButton.icon(
+                                          onPressed: () {},
+                                          icon: const Icon(Icons.play_arrow,
+                                              size: 14),
+                                          label: const Text('Watch'),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green,
+                                            foregroundColor: Colors.white,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 4, vertical: 4),
+                                            textStyle:
+                                                const TextStyle(fontSize: 12),
+                                          ),
+                                        )
+                                      : Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 4, vertical: 4),
+                                          decoration: BoxDecoration(
+                                            color: Colors.redAccent,
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              m.status,
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12),
                                             ),
-                                    )
-                                  : const SizedBox(),
-                            ),
+                                          ),
+                                        ),
+                                ),
+                              ),
                           ],
                         ),
                       );
@@ -200,4 +176,18 @@ class ScheduleScreen extends ConsumerWidget {
 
   bool _isSameDay(DateTime a, DateTime b) =>
       a.year == b.year && a.month == b.month && a.day == b.day;
+
+  bool _isBeforeToday(DateTime date, DateTime today) =>
+      date.isBefore(DateTime(today.year, today.month, today.day));
+
+  String _dateLabel(DateTime date, DateTime today) {
+    if (_isSameDay(date, today)) return 'Today';
+    if (_isBeforeToday(date, today)) {
+      final diff = today.difference(date).inDays;
+      return diff == 1 ? 'Yesterday' : DateFormat('EEE, d MMM').format(date);
+    } else {
+      final diff = date.difference(today).inDays;
+      return diff == 1 ? 'Tomorrow' : DateFormat('EEE, d MMM').format(date);
+    }
+  }
 }

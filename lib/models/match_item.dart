@@ -5,7 +5,7 @@ class MatchItem {
   final Team home;
   final Team away;
   final DateTime date;
-  final String status; // 'watch' or time like '20:00'
+  final String status;
   final String? imageUrl;
   final String leagueId;
 
