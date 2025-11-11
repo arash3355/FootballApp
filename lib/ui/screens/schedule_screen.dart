@@ -70,9 +70,7 @@ class ScheduleScreen extends ConsumerWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Text(dateLabel,
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
+                      child: Text(dateLabel, style: textSubtitle),
                     ),
                     ...dateMatches.map((m) {
                       final dateStr = DateFormat('HH:mm').format(m.date);
@@ -99,9 +97,7 @@ class ScheduleScreen extends ConsumerWidget {
                                     isPast
                                         ? '${m.home.name} $homeScore-$awayScore ${m.away.name}'
                                         : '${m.home.name} vs ${m.away.name}',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
+                                    style: textSubtitle,
                                   ),
                                   const SizedBox(height: 4),
                                   Text(

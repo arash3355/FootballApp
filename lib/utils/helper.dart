@@ -18,18 +18,18 @@ const gapW24 = SizedBox(width: 24);
 const textTitle = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.bold,
-  color: Color.fromARGB(221, 29, 13, 79),
+  color: Color.fromARGB(221, 37, 17, 99),
 );
 
 const textSubtitle = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.bold,
-  color: Color.fromARGB(221, 29, 13, 79),
+  color: Color.fromARGB(221, 37, 17, 99),
 );
 
 const textBody = TextStyle(
   fontSize: 14,
-  color: Color.fromARGB(221, 29, 13, 79),
+  color: Color.fromARGB(221, 37, 17, 99),
 );
 
 const textBtn = TextStyle(
@@ -52,4 +52,7 @@ Widget emptyState(String message) {
 }
 
 /// Widget loading bawaan
-const loadingIndicator = Center(child: CircularProgressIndicator());
+const loadingIndicator = CircularProgressIndicator(
+  color: Colors.white,
+  strokeWidth: 3,
+);
