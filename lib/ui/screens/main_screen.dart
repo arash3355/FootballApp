@@ -23,13 +23,12 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: SafeArea(child: _pages[_currentIndex]),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xFF0D47A1), // 🔹 Biru tua elegan
+        backgroundColor: Colors.blueAccent,
         currentIndex: _currentIndex,
         onTap: (i) => setState(() => _currentIndex = i),
-        selectedItemColor: Colors.white, // 🔹 Item aktif putih
-        unselectedItemColor: Colors.white70, // 🔹 Item non-aktif abu terang
-        type: BottomNavigationBarType
-            .fixed, // biar warna tidak berubah transparan
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
+        type: BottomNavigationBarType.fixed,
         showUnselectedLabels: true,
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         items: const [

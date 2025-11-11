@@ -12,13 +12,10 @@ class FootballLeagueApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Football League',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const SplashScreenn(), // ✅ benar
+      home: SplashScreen(),
     );
   }
 }
