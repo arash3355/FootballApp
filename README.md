@@ -1,6 +1,3 @@
-Baik! Ini versi **README super singkat**, simpel, dan langsung to the point — cocok untuk GitHub UTS.
-
----
 
 # **Football League App**
 
