@@ -1,16 +1,41 @@
-# football_league_app
+Baik! Ini versi **README super singkat**, simpel, dan langsung to the point — cocok untuk GitHub UTS.
 
-A new Flutter project.
+---
 
-## Getting Started
+# **Football League App**
 
-This project is a starting point for a Flutter application.
+Aplikasi Flutter sederhana yang menampilkan informasi liga sepak bola. Dibuat untuk memenuhi tugas **UTS Mobile Programming II**, dengan fokus pada **layouting** dan tambahan penggunaan **state management Riverpod**.
 
-A few resources to get you started if this is your first Flutter project:
+## **Fitur**
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+* Splash screen (5 detik)
+* Bottom navigation (Home, Schedule, Standings)
+* Carousel highlight
+* Daftar pertandingan (dummy data)
+* Tabel klasemen
+* State management menggunakan Riverpod
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## **Menjalankan Aplikasi**
+
+```
+flutter pub get
+flutter run
+```
+
+## **Build APK**
+
+```
+flutter build apk --release
+```
+
+Hasil APK ada di:
+
+```
+build/app/outputs/flutter-apk/app-release.apk
+```
+
+## **Link Penting**
+Link video demo: [Demo_Football_App](https://drive.google.com/file/d/1lIn_299PR4MLWeT0YREIFU7nLzAb4OrS/view?usp=drive_link)  
+Installer Android APK: [Download APK](https://drive.google.com/file/d/12gJRMYODbkpCyQnzkhVXUlJBitzdb10x/view?usp=drive_link)
+
+
