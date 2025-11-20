@@ -37,6 +37,7 @@ class MatchCard extends ConsumerWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
+          // ignore: deprecated_member_use
           color: Colors.black.withOpacity(0.35),
           borderRadius: BorderRadius.circular(10),
         ),

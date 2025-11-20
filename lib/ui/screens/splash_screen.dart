@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
 
-          // --- Bawah: credit text ---
+          // Copyright
           Positioned(
             bottom: 16,
             left: 0,
