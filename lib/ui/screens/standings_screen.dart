@@ -91,8 +91,7 @@ class StandingsScreen extends ConsumerWidget {
                         ),
                       ),
                     ),
-
-                    // --- Keterangan di bawah tabel ---
+                    
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 12),
                       child: Column(
@@ -111,7 +110,7 @@ class StandingsScreen extends ConsumerWidget {
             ),
           ),
 
-          // --- Recent Matches title ---
+          // --- Recent Matches ---
           const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.fromLTRB(12, 24, 12, 8),
@@ -121,8 +120,7 @@ class StandingsScreen extends ConsumerWidget {
               ),
             ),
           ),
-
-          // --- Recent Matches list ---
+          
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
