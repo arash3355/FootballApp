@@ -19,10 +19,10 @@ class ScheduleScreen extends ConsumerWidget {
 
     final today = DateTime.now();
 
-    // --- Kelompokkan semua match berdasarkan tanggal ---
+    // --- Kelompok match berdasarkan tanggal ---
     final Map<String, List> grouped = {};
 
-    // Urutkan semua match berdasarkan tanggal (lama → baru)
+    // Urutkan match berdasarkan tanggal
     final sortedMatches = [...matches]
       ..sort((a, b) => a.date.compareTo(b.date));
 
@@ -108,8 +108,7 @@ class ScheduleScreen extends ConsumerWidget {
                                 ],
                               ),
                             ),
-
-                            // Tombol hanya untuk hari ini & masa depan
+                            
                             if (!isPast)
                               SizedBox(
                                 width: 80,
