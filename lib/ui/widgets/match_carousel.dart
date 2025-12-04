@@ -45,13 +45,11 @@ class MatchCarousel extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              // 🖼️ Gambar latar
               Image.network(
                 match['image']!,
                 fit: BoxFit.cover,
               ),
 
-              // 🌫️ Lapisan gelap transparan agar teks lebih jelas
               DecoratedBox(
                 decoration: BoxDecoration(
                   // ignore: deprecated_member_use
@@ -59,7 +57,6 @@ class MatchCarousel extends StatelessWidget {
                 ),
               ),
 
-              // ✍️ Teks dan tombol di atas gambar
               Positioned(
                 bottom: 20,
                 left: 20,
