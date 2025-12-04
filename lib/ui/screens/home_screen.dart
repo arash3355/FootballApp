@@ -12,7 +12,6 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // --- Data provider ---
     final leagues = ref.watch(leaguesProvider);
     final selectedId = ref.watch(selectedLeagueIdProvider);
     final notifier = ref.read(selectedLeagueIdProvider.notifier);
@@ -86,7 +85,7 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  /// Judul section seperti "Today Matches" / "Upcoming Matches"
+  /// Judul section "Today Matches" / "Upcoming Matches"
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
@@ -94,7 +93,6 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  /// Daftar pertandingan dengan scroll horizontal
   Widget _buildMatchList(List matches) {
     if (matches.isEmpty) {
       return emptyState('No matches available.');
